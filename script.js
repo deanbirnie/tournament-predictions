@@ -1,95 +1,89 @@
-const predictionsTable = document.getElementById('predictions-table').getElementsByTagName('tbody')[0];
-let predictionsData = [];
+document.addEventListener("DOMContentLoaded", function () {
+    const predictionsTable = document.getElementById('predictions-table').getElementsByTagName('tbody')[0];
+    let predictionsData = [];
 
-function loadPredictions() {
-    fetch('predictions.json')
-        .then(response => response.json())
-        .then(data => {
-            predictionsData = data;
-            updateTable();
-        })
-        .catch(error => {
-            console.error('Error loading predictions:', error);
-        });
-}
-
-function savePredictions() {
-    fetch('predictions.json', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(predictionsData)
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Predictions saved successfully.');
-        } else {
-            console.error('Error saving predictions:', response.statusText);
-        }
-    })
-    .catch(error => {
-        console.error('Error saving predictions:', error);
-    });
-}
-
-function updateTable() {
-    // Clear existing table rows
-    while (predictionsTable.firstChild) {
-        predictionsTable.removeChild(predictionsTable.firstChild);
+    function loadPredictions() {
+        fetch('predictions.json')
+            .then(response => response.json())
+            .then(data => {
+                predictionsData = data;
+                updateTable();
+            })
+            .catch(error => {
+                console.error('Error loading predictions:', error);
+            });
     }
 
-    // Add rows from predictionsData
-    predictionsData.forEach(prediction => {
-        const newRow = predictionsTable.insertRow(predictionsTable.rows.length);
+    function savePredictions() {
+        fetch('predictions.json', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(predictionsData)
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Predictions saved successfully.');
+            } else {
+                console.error('Error saving predictions:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Error saving predictions:', error);
+        });
+    }
 
-        const cell1 = newRow.insertCell(0);
-        const cell2 = newRow.insertCell(1);
-        const cell3 = newRow.insertCell(2);
-        const cell4 = newRow.insertCell(3);
-        const cell5 = newRow.insertCell(4);
+    function updateTable() {
+        // Clear existing table rows
+        while (predictionsTable.firstChild) {
+            predictionsTable.removeChild(predictionsTable.firstChild);
+        }
 
-        cell1.innerHTML = prediction.name;
-        cell2.innerHTML = prediction.timestamp;
-        cell3.innerHTML = prediction.match;
-        cell4.innerHTML = prediction.teamAScore;
-        cell5.innerHTML = prediction.teamBScore;
-    });
-}
+        // Add rows from predictionsData
+        predictionsData.forEach(prediction => {
+            const newRow = predictionsTable.insertRow(predictionsTable.rows.length);
 
-function submitPrediction() {
-    const name = document.getElementById('name').value;
-    const match = document.getElementById('match').value;
-    const teamAScore = document.getElementById('teamAScore').value;
-    const teamBScore = document.getElementById('teamBScore').value;
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            const cell4 = newRow.insertCell(3);
+            const cell5 = newRow.insertCell(4);
 
-    // Get the current timestamp
-    const timestamp = new Date().toLocaleString('en-GB');
+            cell1.innerHTML = prediction.name;
+            cell2.innerHTML = prediction.timestamp;
+            cell3.innerHTML = prediction.match;
+            cell4.innerHTML = prediction.teamAScore;
+            cell5.innerHTML = prediction.teamBScore;
+        });
+    }
 
-    // Create a prediction object
-    const prediction = {
-        name,
-        timestamp,
-        match,
-        teamAScore,
-        teamBScore
-    };
+    function submitPrediction() {
+        const name = document.getElementById('name').value;
+        const match = document.getElementById('match').value;
+        const teamAScore = document.getElementById('teamAScore').value;
+        const teamBScore = document.getElementById('teamBScore').value;
 
-    // Add the prediction to the data array
-    predictionsData.push(prediction);
+        // Get the current timestamp
+        const timestamp = new Date().toLocaleString('en-GB');
 
-    // Update the table
-    updateTable();
+        // Create a prediction object
+        const prediction = {
+            name,
+            timestamp,
+            match,
+            teamAScore,
+            teamBScore
+        };
 
-    // Save predictions to JSON file
-    savePredictions();
+        // Add the prediction to the data array
+        predictionsData.push(prediction);
 
-    // Clear form fields
-    document.getElementById('name').value = '';
-    document.getElementById('match').value = '';
-    document.getElementById('teamAScore').value = '';
-    document.getElementById('teamBScore').value = '';
-}
+        // Update the table
+        updateTable();
 
-// Load predictions when the page loads
-loadPredictions();
+        // Save predictions to JSON file
+        savePredictions();
+
+        // Clear form fields
+        document.getElementById('name').value = '';
