@@ -15,7 +15,7 @@ function loadPredictions() {
 
 function savePredictions() {
     fetch('predictions.json', {
-        method: 'POST', // Use POST instead of PUT
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
