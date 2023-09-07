@@ -1,134 +1,74 @@
-/* Reset some default browser styles */
-body, h1, h2, p, ul, li, form {
-    margin: 0;
-    padding: 0;
-}
-
-/* Basic page styles */
+/* Add your CSS styles for the page here */
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f0f0f0;
     margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
+header {
+    background-color: #0077b6;
+    color: white;
+    text-align: center;
     padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 36px;
 }
 
-/* Form styles */
-form {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
+p {
+    font-size: 18px;
+}
+
+main {
+    max-width: 600px;
     margin: 20px auto;
-    max-width: 400px;
-    border-radius: 5px;
-    text-align: center;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.form-group {
-    margin-bottom: 10px;
-    text-align: left;
+form {
+    display: flex;
+    flex-direction: column;
 }
 
 label {
-    font-weight: bold;
-}
-
-/* Adjust input and select elements */
-input[type="text"],
-input[type="number"],
-select {
-    width: 90%; /* Full width for consistency */
-    padding: 8px; /* Reduced padding */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    max-width: 100%; /* Maximum width */
-}
-
-#teamAScore,
-#teamBScore {
-    max-width: 100px; /* Adjust width for score fields */
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
     font-size: 18px;
-    cursor: pointer;
     margin-top: 10px;
 }
 
-button:hover {
-    background-color: #0056b3;
+input[type="text"],
+input[type="number"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-/* Table styles */
-.predictions {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    border-radius: 5px;
-    overflow-x: auto;
-    text-align: center;
+button[type="submit"] {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
 }
 
 th {
-    background-color: #007bff;
-    color: #fff;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-/* Responsive Styles for Mobile Devices */
-@media (max-width: 600px) {
-    .container {
-        padding: 10px;
-    }
-    form {
-        padding: 10px;
-        max-width: 100%;
-    }
-    input[type="text"],
-    input[type="number"],
-    select {
-        padding: 6px; /* Further reduced padding for mobile */
-        font-size: 14px;
-    }
-    .predictions {
-        padding: 10px;
-    }
+    background-color: #0077b6;
+    color: white;
 }

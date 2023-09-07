@@ -3,56 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>RWC 2023 Predictions</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="images/rwc-favicon-16x16.png" sizes="16x16">
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>RWC 2023 Predictions</h1>
+        <p>Enter your predictions for the current match:</p>
+    </header>
+    <main>
         <form id="prediction-form">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" required>
-            </div>
-            <div class="form-group">
-                <label for="match">Match:</label>
-                <select id="match" required>
-                    <option value="Match 1">08 Sep - France vs New Zealand</option>
-                    <option value="Match 2">09 Sep - Italy vs Namibia</option>
-                    <option value="Match 3">09 Sep - Ireland vs Romania</option>
-                    <option value="Match 4">09 Sep - Australia vs Georgia</option>
-                    <option value="Match 5">09 Sep - England vs Argentina</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="teamAScore">Team A Score:</label>
-                <input type="number" id="teamAScore" required>
-            </div>
-            <div class="form-group">
-                <label for="teamBScore">Team B Score:</label>
-                <input type="number" id="teamBScore" required>
-            </div>
-            <button type="button" onclick="submitPrediction()">Submit Prediction</button>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="team-a-score">Team A Score:</label>
+            <input type="number" id="team-a-score" name="team-a-score" required>
+
+            <label for="team-b-score">Team B Score:</label>
+            <input type="number" id="team-b-score" name="team-b-score" required>
+
+            <button type="submit">Submit Prediction</button>
         </form>
-        <div class="predictions">
-            <h2>Predictions</h2>
-            <table id="predictions-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Timestamp</th>
-                        <th>Match</th>
-                        <th>Team A Score</th>
-                        <th>Team B Score</th>
-                    </tr>
-                </thead>
-                <tbody id="predictions-body">
-                    <!-- Predictions will be displayed here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Submitted</th>
+                    <th>Team A</th>
+                    <th>Team B</th>
+                </tr>
+            </thead>
+            <tbody id="prediction-table">
+                <!-- Predictions will be inserted here dynamically -->
+            </tbody>
+        </table>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>

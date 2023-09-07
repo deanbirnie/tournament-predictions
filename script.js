@@ -1,97 +1,98 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const predictionsTable = document.getElementById('predictions-table').getElementsByTagName('tbody')[0];
-    let predictionsData = [];
+    const form = document.getElementById("prediction-form");
+    const tableBody = document.getElementById("prediction-table");
 
-    function loadPredictions() {
-        fetch('predictions.json')
-            .then(response => response.json())
-            .then(data => {
-                predictionsData = data;
-                updateTable();
-            })
-            .catch(error => {
-                console.error('Error loading predictions:', error);
-            });
-    }
+    // Load existing data when the page loads
+    loadPredictions();
 
-    function savePredictions() {
-        fetch('predictions.json', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(predictionsData)
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Predictions saved successfully.');
-            } else {
-                console.error('Error saving predictions:', response.statusText);
-            }
-        })
-        .catch(error => {
-            console.error('Error saving predictions:', error);
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const teamAScore = document.getElementById("team-a-score").value;
+        const teamBScore = document.getElementById("team-b-score").value;
+        const timestamp = new Date().toLocaleString("en-US", {
+            day: "numeric",
+            month: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
         });
-    }
 
-    function updateTable() {
-        // Clear existing table rows
-        while (predictionsTable.firstChild) {
-            predictionsTable.removeChild(predictionsTable.firstChild);
-        }
-
-        // Add rows from predictionsData
-        predictionsData.forEach(prediction => {
-            const newRow = predictionsTable.insertRow(predictionsTable.rows.length);
-
-            const cell1 = newRow.insertCell(0);
-            const cell2 = newRow.insertCell(1);
-            const cell3 = newRow.insertCell(2);
-            const cell4 = newRow.insertCell(3);
-            const cell5 = newRow.insertCell(4);
-
-            cell1.innerHTML = prediction.name;
-            cell2.innerHTML = prediction.timestamp;
-            cell3.innerHTML = prediction.match;
-            cell4.innerHTML = prediction.teamAScore;
-            cell5.innerHTML = prediction.teamBScore;
-        });
-    }
-
-    function submitPrediction() {
-        const name = document.getElementById('name').value;
-        const match = document.getElementById('match').value;
-        const teamAScore = document.getElementById('teamAScore').value;
-        const teamBScore = document.getElementById('teamBScore').value;
-
-        // Get the current timestamp
-        const timestamp = new Date().toLocaleString('en-GB');
-
-        // Create a prediction object
         const prediction = {
             name,
             timestamp,
-            match,
             teamAScore,
-            teamBScore
+            teamBScore,
         };
 
-        // Add the prediction to the data array
-        predictionsData.push(prediction);
+        // Send the prediction to the server and save it to predictions.json
+        savePrediction(prediction);
 
-        // Update the table
-        updateTable();
+        // Add the prediction to the table
+        addPredictionToTable(prediction);
 
-        // Save predictions to JSON file
-        savePredictions();
+        // Clear the form
+        form.reset();
+    });
 
-        // Clear form fields
-        document.getElementById('name').value = '';
-        document.getElementById('match').value = '';
-        document.getElementById('teamAScore').value = '';
-        document.getElementById('teamBScore').value = '';
+    function savePrediction(prediction) {
+        // Fetch existing data from predictions.json
+        fetch('/predictions.json')
+            .then(response => response.json())
+            .then(data => {
+                // Append the new prediction to the existing data array
+                data.push(prediction);
+    
+                // Create a JSON string from the updated data
+                const jsonData = JSON.stringify(data);
+    
+                // Send a PUT request using the Fetch API to update the file
+                fetch('/predictions.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: jsonData,
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Success, do nothing
+                        console.log('Prediction saved successfully.');
+                    } else {
+                        console.error('Failed to save prediction.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            })
+            .catch(error => {
+                console.error('Failed to load predictions:', error);
+            });
+    }    
+
+    function addPredictionToTable(prediction) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${prediction.name}</td>
+            <td>${prediction.timestamp}</td>
+            <td>${prediction.teamAScore}</td>
+            <td>${prediction.teamBScore}</td>
+        `;
+        tableBody.appendChild(row);
     }
 
-    // Load predictions when the page loads
-    loadPredictions();
+    function loadPredictions() {
+        // Fetch existing data from predictions.json
+        fetch('/predictions.json')
+            .then(response => response.json())
+            .then(data => {
+                // Populate the table with existing data
+                data.forEach(prediction => addPredictionToTable(prediction));
+            })
+            .catch(error => {
+                console.error('Failed to load predictions:', error);
+            });
+    }
 });
