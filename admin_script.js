@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (clearSubmissionsButton) {
         clearSubmissionsButton.addEventListener("click", function () {
             if (confirm("Are you sure you want to clear all submissions?")) {
-                // Logic to clear all submissions will go here
+                clearSubmissions();
                 
     fetch('/admin/clear_submissions', {
         method: 'POST',
