@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 // Append the new prediction to the existing data array
                 data.push(prediction);
-    
+
                 // Create a JSON string from the updated data
                 const jsonData = JSON.stringify(data);
-    
+
                 // Send a PUT request using the Fetch API to update the file
                 fetch('/predictions.json', {
                     method: 'PUT',
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => {
                 console.error('Failed to load predictions:', error);
             });
-    }    
+    }
 
     function addPredictionToTable(prediction) {
         const row = document.createElement("tr");
