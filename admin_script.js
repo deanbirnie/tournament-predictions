@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
             const enteredPassword = document.getElementById("admin-password").value;
             if (enteredPassword === ADMIN_PASSWORD) {
-                window.location.href = 'dashboard_admin.html';
+                window.location.href = 'admin_dashboard.html';
             } else {
                 alert("Incorrect password. Please try again.");
             }
