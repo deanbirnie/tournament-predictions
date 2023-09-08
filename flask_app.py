@@ -7,11 +7,11 @@ app = Flask(__name__, static_folder='path/to/your/static/files')
 # The path to the predictions.json file on your server
 PREDICTIONS_JSON_PATH = os.path.join(os.path.dirname(__file__), 'predictions.json')
 
-@app.route('/admin', methods=['GET'])
+@app.route('/admin.html', methods=['GET'])
 def admin_login():
     return send_from_directory(app.static_folder, 'admin.html')
 
-@app.route('/admin_dashboard', methods=['GET'])
+@app.route('/admin_dashboard.html', methods=['GET'])
 def admin_dashboard():
     return send_from_directory(app.static_folder, 'admin_dashboard.html')
 
