@@ -2,7 +2,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 import os
 
-app = Flask(__name__, static_folder='path/to/your/static/files')
+app = Flask(__name__, static_folder='/var/www/html/')
 
 # The path to the predictions.json file on your server
 PREDICTIONS_JSON_PATH = os.path.join(os.path.dirname(__file__), 'predictions.json')
