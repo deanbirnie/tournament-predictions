@@ -1,11 +1,27 @@
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='path/to/your/static/files')
 
 # The path to the predictions.json file on your server
 PREDICTIONS_JSON_PATH = os.path.join(os.path.dirname(__file__), 'predictions.json')
+
+@app.route('/admin', methods=['GET'])
+def admin_login():
+    return send_from_directory(app.static_folder, 'admin.html')
+
+@app.route('/admin_dashboard', methods=['GET'])
+def admin_dashboard():
+    return send_from_directory(app.static_folder, 'admin_dashboard.html')
+
+@app.route('/admin_script.js', methods=['GET'])
+def admin_script():
+    return send_from_directory(app.static_folder, 'admin_script.js')
+
+@app.route('/admin_style.css', methods=['GET'])
+def admin_style():
+    return send_from_directory(app.static_folder, 'admin_style.css')
 
 @app.route('/admin/clear_submissions', methods=['PUT'])
 def clear_submissions():
