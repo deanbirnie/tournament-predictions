@@ -7,7 +7,7 @@ app = Flask(__name__)
 # The path to the predictions.json file on your server
 PREDICTIONS_JSON_PATH = os.path.join(os.path.dirname(__file__), 'predictions.json')
 
-@app.route('/admin/clear_submissions', methods=['POST'])
+@app.route('/admin/clear_submissions', methods=['PUT'])
 def clear_submissions():
     # Clear all submissions in the predictions.json file
     with open(PREDICTIONS_JSON_PATH, 'w') as file:

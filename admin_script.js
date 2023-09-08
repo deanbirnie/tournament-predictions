@@ -25,7 +25,19 @@ document.addEventListener("DOMContentLoaded", function () {
         clearSubmissionsButton.addEventListener("click", function () {
             if (confirm("Are you sure you want to clear all submissions?")) {
                 // Logic to clear all submissions will go here
-                alert("Clear all submissions feature is under development.");
+                
+    fetch('/admin/clear_submissions', {
+        method: 'POST',
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred while clearing submissions.');
+    });
+    
             }
         });
     }
