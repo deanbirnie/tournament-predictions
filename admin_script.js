@@ -48,4 +48,20 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = 'index.html';
         });
     }
+
+    function clearSubmissions() {
+        fetch('/admin/clear_submissions', {
+            method: 'PUT',
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            // Reload the page or update the DOM to reflect the cleared submissions
+            location.reload();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('An error occurred while clearing submissions.');
+        });
+    }
 });
