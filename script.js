@@ -11,13 +11,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const name = document.getElementById("name").value;
         const teamAScore = document.getElementById("team-a-score").value;
         const teamBScore = document.getElementById("team-b-score").value;
-        const timestamp = new Date().toLocaleString("en-US", {
-            day: "numeric",
-            month: "numeric",
-            year: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-        });
+        function formatTimestamp(isoTimestamp) {
+    const date = new Date(isoTimestamp);
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based in JavaScript
+    const year = date.getUTCFullYear();
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
+const timestamp = formatTimestamp(new Date().toISOString());
 
         const prediction = {
             name,
