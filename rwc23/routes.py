@@ -1,5 +1,5 @@
 
-from flask import request, jsonify
+from rwc23 import request, jsonify
 from rwc23 import app, db
 from rwc23.models import Match, Prediction
 
