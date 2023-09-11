@@ -1,103 +1,85 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("prediction-form");
-    const tableBody = document.getElementById("prediction-table");
 
-    // Load existing data when the page loads
-    loadPredictions();
+document.addEventListener('DOMContentLoaded', () => {
+    // Fetch and display the list of matches and predictions when the page loads
+    fetchMatches();
+    fetchPredictions();
 
-    form.addEventListener("submit", function (event) {
+    // Handle the form submission for adding a new match
+    document.getElementById('add-match-form').addEventListener('submit', (event) => {
         event.preventDefault();
-
-        const name = document.getElementById("name").value;
-        const teamAScore = document.getElementById("team-a-score").value;
-        const teamBScore = document.getElementById("team-b-score").value;
-        function formatTimestamp(isoTimestamp) {
-    const date = new Date(isoTimestamp);
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based in JavaScript
-    const year = date.getUTCFullYear();
-    const hours = String(date.getUTCHours()).padStart(2, '0');
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-    
-    return `${day}/${month}/${year} ${hours}:${minutes}`;
-}
-
-const timestamp = formatTimestamp(new Date().toISOString());
-
-        const prediction = {
-            name,
-            timestamp,
-            teamAScore,
-            teamBScore,
+        const data = {
+            date: document.getElementById('match-date').value,
+            team_a: document.getElementById('team-a').value,
+            team_b: document.getElementById('team-b').value
         };
-
-        // Send the prediction to the server and save it to predictions.json
-        savePrediction(prediction);
-
-        // Add the prediction to the table
-        addPredictionToTable(prediction);
-
-        // Clear the form
-        form.reset();
+        fetch('/api/matches', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            fetchMatches();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     });
 
-    function savePrediction(prediction) {
-        // Fetch existing data from predictions.json
-        fetch('/predictions.json')
-            .then(response => response.json())
-            .then(data => {
-                // Append the new prediction to the existing data array
-                data.push(prediction);
-
-                // Create a JSON string from the updated data
-                const jsonData = JSON.stringify(data);
-
-                // Send a PUT request using the Fetch API to update the file
-                fetch('/predictions.json', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: jsonData,
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Success, do nothing
-                        console.log('Prediction saved successfully.');
-                    } else {
-                        console.error('Failed to save prediction.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            })
-            .catch(error => {
-                console.error('Failed to load predictions:', error);
-            });
-    }
-
-    function addPredictionToTable(prediction) {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${prediction.name}</td>
-            <td>${prediction.timestamp}</td>
-            <td>${prediction.teamAScore}</td>
-            <td>${prediction.teamBScore}</td>
-        `;
-        tableBody.appendChild(row);
-    }
-
-    function loadPredictions() {
-        // Fetch existing data from predictions.json
-        fetch('/predictions.json')
-            .then(response => response.json())
-            .then(data => {
-                // Populate the table with existing data
-                data.forEach(prediction => addPredictionToTable(prediction));
-            })
-            .catch(error => {
-                console.error('Failed to load predictions:', error);
-            });
-    }
+    // Handle the form submission for adding a new prediction
+    document.getElementById('add-prediction-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const data = {
+            match_id: document.getElementById('match-id').value,
+            user_name: document.getElementById('user-name').value,
+            team_a_score: document.getElementById('team-a-score').value,
+            team_b_score: document.getElementById('team-b-score').value
+        };
+        fetch('/api/predictions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            fetchPredictions();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
 });
+
+function fetchMatches() {
+    fetch('/api/matches')
+    .then(response => response.json())
+    .then(data => {
+        const matchesList = document.getElementById('matches-list');
+        matchesList.innerHTML = '';
+        data.matches.forEach(match => {
+            const matchDiv = document.createElement('div');
+            matchDiv.textContent = `Match ID: ${match.id}, Date: ${match.date}, Team A: ${match.team_a}, Team B: ${match.team_b}`;
+            matchesList.appendChild(matchDiv);
+        });
+    });
+}
+
+function fetchPredictions() {
+    fetch('/api/predictions')
+    .then(response => response.json())
+    .then(data => {
+        const predictionsList = document.getElementById('predictions-list');
+        predictionsList.innerHTML = '';
+        data.predictions.forEach(prediction => {
+            const predictionDiv = document.createElement('div');
+            predictionDiv.textContent = `Prediction ID: ${prediction.id}, Match ID: ${prediction.match_id}, User Name: ${prediction.user_name}, Team A Score: ${prediction.team_a_score}, Team B Score: ${prediction.team_b_score}`;
+            predictionsList.appendChild(predictionDiv);
+        });
+    });
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>RWC 2023 Predictions</title>
+    <link rel="icon" type="image/png" href="images/rwc-favicon-16x16.png" size="16x16">
+</head>
+
+    <body>
+        <div style="position: absolute; top: 20px; right: 20px;">
+            <a href="templates/admin.html" style="font-family: Arial, sans-serif; background-color: #0077b6; color: white; padding: 10px; border-radius: 5px; text-decoration: none;">Admin Login</a>
+        </div>
+    
+    <header>
+        <h1>RWC 2023 Predictions</h1>
+        <p>Rugby World Cup 2023</p>
+    </header>
+    <main>
+        <form id="prediction-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="team-a-score">Under development:</label>
+            <input type="number" id="team-a-score" name="team-a-score" required>
+
+            <label for="team-b-score">Under development:</label>
+            <input type="number" id="team-b-score" name="team-b-score" required>
+
+            <button type="submit">Submit Prediction</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Submitted</th>
+                    <th>South Africa</th>
+                    <th>Scotland</th>
+                </tr>
+            </thead>
+            <tbody id="prediction-table">
+                <!-- Predictions will be inserted here dynamically -->
+            </tbody>
+        </table>
+    </main>
+    <script src="static/script.js"></script>
+</body>
+</html>
